@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CVM Extractor - CS50x</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); font-family: 'Inter', sans-serif; padding-top: 30px; padding-bottom: 50px; }
+        .main-card, .glossary-card { border: none; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; background: white; }
+        .card-header-fintech { background: #2c3e50; color: white; padding: 1.5rem; text-align: center; }
+        .btn-primary { background: #3498db; border: none; border-radius: 10px; font-weight: 600; padding: 12px; transition: 0.3s; }
+        .btn-primary:hover { background: #2980b9; transform: translateY(-2px); }
+        .glossary-item { font-size: 0.85rem; border-bottom: 1px solid #f1f3f5; padding: 10px 0; }
+        .glossary-item:last-child { border-bottom: none; }
+        .badge-block { background: #e9ecef; color: #495057; font-weight: bold; width: 70px; display: inline-block; text-align: center; border-radius: 5px; margin-right: 10px; }
+        #status-box { display: none; border-radius: 10px; border: none; }
+    </style>
+</head>
+<body class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 mb-4">
+            <div class="card main-card">
+                <div class="card-header-fintech">
+                    <h2 class="mb-0 font-weight-bold"><i class="fas fa-download mr-2"></i>CVM Extractor</h2>
+                    <p class="small mb-0 opacity-75">Extract CDA Portfolio Composition</p>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div id="status-box" class="alert alert-info text-center py-3 mb-4">
+                        <div class="spinner-border spinner-border-sm text-primary mr-2" role="status"></div>
+                        <span id="status-text" class="font-weight-bold">Processing Request...</span>
+                    </div>
+
+                    <form id="cvm-form" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="text-muted small font-weight-bold">YEAR</label>
+                                <input type="text" name="ano" class="form-control" value="2025" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="text-muted small font-weight-bold">MONTH</label>
+                                <input type="text" name="mes" class="form-control" value="06" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-muted small font-weight-bold">SELECT ASSET BLOCK</label>
+                            <select name="bloco" class="form-control">
+                                <option value="1">Block 1: Government Bonds (SELIC)</option>
+                                <option value="2">Block 2: Investment Fund Quotas</option>
+                                <option value="3">Block 3: Swaps</option>
+                                <option value="4" selected>Block 4: Other Coded Assets</option>
+                                <option value="5">Block 5: Time Deposits & FI Securities</option>
+                                <option value="6">Block 6: Agribusiness & Private Credit</option>
+                                <option value="7">Block 7: Foreign Investments</option>
+                                <option value="8">Block 8: Other Non-Coded Assets</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="btn btn-primary btn-block mt-4 shadow">
+                            Fetch Data <i class="fas fa-search ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card glossary-card p-4">
+                <h5 class="font-weight-bold mb-3 text-dark text-center"><i class="fas fa-book-open mr-2 text-primary"></i>Asset Glossary</h5>
+                <p class="text-muted small mb-4 text-center">Understand the categories of the CDA report according to CVM (Brazilian Securities and Exchange Commission) standards.</p>
+                
+                <div class="glossary-list">
+                    <div class="glossary-item"><span class="badge-block">Block 1</span> SELIC Government Bonds</div>
+                    <div class="glossary-item"><span class="badge-block">Block 2</span> Investment Fund Quotas</div>
+                    <div class="glossary-item"><span class="badge-block">Block 3</span> Swap operations</div>
+                    <div class="glossary-item"><span class="badge-block">Block 4</span> Other coded assets (Stocks, etc.)</div>
+                    <div class="glossary-item"><span class="badge-block">Block 5</span> Time deposits and other IF securities</div>
+                    <div class="glossary-item"><span class="badge-block">Block 6</span> Agribusiness and private credit securities</div>
+                    <div class="glossary-item"><span class="badge-block">Block 7</span> Investments made in foreign markets</div>
+                    <div class="glossary-item"><span class="badge-block">Block 8</span> Other assets not previously coded</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('cvm-form');
+        const statusBox = document.getElementById('status-box');
+        const statusText = document.getElementById('status-text');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.onsubmit = function() {
+            statusBox.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Requesting...';
+            setTimeout(() => { statusText.innerText = "Connecting to CVM Web API..."; }, 1500);
+            setTimeout(() => { statusText.innerText = "Processing Dataset Binary..."; }, 4000);
+        };
+    </script>
+</body>
+</html>
