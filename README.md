@@ -1,6 +1,5 @@
 # CVM Extractor 
 
-#### Video Demo:  <https://youtu.be/LCdfROqmt5g?si=6HP41CkUdgHe8Ln2>
 
 #### Description:
 
