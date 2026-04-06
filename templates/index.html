@@ -34,29 +34,39 @@
                         <span id="status-text" class="font-weight-bold">Processing Request...</span>
                     </div>
 
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
                     <form id="cvm-form" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="text-muted small font-weight-bold">YEAR</label>
-                                <input type="text" id="year-input" name="ano" class="form-control" value="2025" required>
+                                <input type="text" id="year-input" name="ano" class="form-control" value="{{ request.form.get('ano', '2025') }}" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="text-muted small font-weight-bold">MONTH</label>
-                                <input type="text" id="month-input" name="mes" class="form-control" value="06" required>
+                                <input type="text" id="month-input" name="mes" class="form-control" value="{{ request.form.get('mes', '06') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="text-muted small font-weight-bold">SELECT ASSET BLOCK</label>
                             <select name="bloco" class="form-control">
-                                <option value="1">Block 1: Government Bonds (SELIC)</option>
-                                <option value="2">Block 2: Investment Fund Quotas</option>
-                                <option value="3">Block 3: Swaps</option>
-                                <option value="4" selected>Block 4: Other Coded Assets</option>
-                                <option value="5">Block 5: Time Deposits & FI Securities</option>
-                                <option value="6">Block 6: Agribusiness & Private Credit</option>
-                                <option value="7">Block 7: Foreign Investments</option>
-                                <option value="8">Block 8: Other Non-Coded Assets</option>
+                                <option value="1" {% if request.form.get('bloco', '4') == '1' %}selected{% endif %}>Block 1: Government Bonds (SELIC)</option>
+                                <option value="2" {% if request.form.get('bloco', '4') == '2' %}selected{% endif %}>Block 2: Investment Fund Quotas</option>
+                                <option value="3" {% if request.form.get('bloco', '4') == '3' %}selected{% endif %}>Block 3: Swaps</option>
+                                <option value="4" {% if request.form.get('bloco', '4') == '4' %}selected{% endif %}>Block 4: Other Coded Assets</option>
+                                <option value="5" {% if request.form.get('bloco', '4') == '5' %}selected{% endif %}>Block 5: Time Deposits & FI Securities</option>
+                                <option value="6" {% if request.form.get('bloco', '4') == '6' %}selected{% endif %}>Block 6: Agribusiness & Private Credit</option>
+                                <option value="7" {% if request.form.get('bloco', '4') == '7' %}selected{% endif %}>Block 7: Foreign Investments</option>
+                                <option value="8" {% if request.form.get('bloco', '4') == '8' %}selected{% endif %}>Block 8: Other Non-Coded Assets</option>
                             </select>
                         </div>
 
