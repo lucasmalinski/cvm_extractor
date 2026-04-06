@@ -24,7 +24,7 @@ class CVMExtractor:
             url = self.base_url.format("HIST/", year,"")
         
         
-        headers = {'User-Aent': 'Mozilla/5.0'}
+        headers = {'User-Agent': 'Mozilla/5.0'}
         
         response = requests.get(url, headers=headers)
         if response.status_code != 200:
@@ -43,11 +43,12 @@ class CVMExtractor:
             with zip_ref.open(target[0]) as csv_file:
                 # CVM files typically use ';' as a separator
                 df = pd.read_csv(csv_file, sep=';', encoding='iso-8859-1')
-                return df,
-                
-                one
+                return df, None
+
+
 
 extractor = CVMExtractor()
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
