@@ -38,11 +38,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="text-muted small font-weight-bold">YEAR</label>
-                                <input type="text" name="ano" class="form-control" value="2025" required>
+                                <input type="text" id="year-input" name="ano" class="form-control" value="2025" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="text-muted small font-weight-bold">MONTH</label>
-                                <input type="text" name="mes" class="form-control" value="06" required>
+                                <input type="text" id="month-input" name="mes" class="form-control" value="06" required>
                             </div>
                         </div>
 
@@ -92,6 +92,29 @@
         const statusBox = document.getElementById('status-box');
         const statusText = document.getElementById('status-text');
         const submitBtn = document.getElementById('submit-btn');
+        const yearInput = document.getElementById('year-input');
+        const monthInput = document.getElementById('month-input');
+
+        function syncMonthAvailability() {
+            const year = parseInt(yearInput.value, 10);
+            const disableMonth = !Number.isNaN(year) && year < 2023;
+
+            monthInput.disabled = disableMonth;
+            monthInput.required = !disableMonth;
+
+            if (disableMonth) {
+                monthInput.value = '';
+                monthInput.placeholder = 'Not used before 2023';
+            } else {
+                monthInput.placeholder = '';
+                if (!monthInput.value) {
+                    monthInput.value = '01';
+                }
+            }
+        }
+
+        yearInput.addEventListener('input', syncMonthAvailability);
+        syncMonthAvailability();
 
         form.onsubmit = function() {
             statusBox.style.display = 'block';
