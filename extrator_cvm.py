@@ -9,11 +9,22 @@ app.secret_key = "cvm_secret_key"
 
 class CVMExtractor:
     def __init__(self):
-        self.base_url = 'https://dados.cvm.gov.br/dados/FI/DOC/CDA/DADOS/cda_fi_{}{}.zip'
+        self.base_url = 'https://dados.cvm.gov.br/dados/FI/DOC/CDA/DADOS/{}cda_fi_{}{}.zip'
 
-    def get_data_as_df(self, year, month, block_id):
-        url = self.base_url.format(year, month)
-        headers = {'User-Agent': 'Mozilla/5.0'}
+    def get_data_as_df(self, year, month=None, block_id=None):
+        
+        #URL example since 2023
+        #https://dados.cvm.gov.br/dados/FI/DOC/CDA/DADOS/cda_fi_202506.zip
+        if int(year) >= 2023:
+            url = self.base_url.format("",year, month)
+        
+        #URL example pre 2023
+       #https://dados.cvm.gov.br/dados/FI/DOC/CDA/DADOS/HIST/cda_fi_2022.zip
+        elif int(year) < 2023:
+            url = self.base_url.format("HIST/", year,"")
+        
+        
+        headers = {'User-Aent': 'Mozilla/5.0'}
         
         response = requests.get(url, headers=headers)
         if response.status_code != 200:
@@ -32,7 +43,9 @@ class CVMExtractor:
             with zip_ref.open(target[0]) as csv_file:
                 # CVM files typically use ';' as a separator
                 df = pd.read_csv(csv_file, sep=';', encoding='iso-8859-1')
-                return df, None
+                return df,
+                
+                one
 
 extractor = CVMExtractor()
 
