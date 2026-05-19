@@ -15,7 +15,7 @@ Access real-time Brazilian investment fund data from CVM
 
 #### Description:
 
-**CVM Extractro** is a Flask-based web application designed to democratize access to high-frequency financial data from the Brazilian Securities and Exchange Commission (CVM). Specifically, the software automates the retrieval, extraction, and visualization of the *Composição e Diversificação das Aplicações* (CDA) documents, which detail the portfolio assets of investment funds in Brazil.
+**CVM Extractor** is a Flask-based web application designed to democratize access to high-frequency financial data from the Brazilian Securities and Exchange Commission (CVM). Specifically, the software automates the retrieval, extraction, and visualization of the *Composição e Diversificação das Aplicações* (CDA) documents, which detail the portfolio assets of investment funds in Brazil.
 
 The project addresses a specific problem in the Brazilian financial open-data ecosystem: accessibility. While the CVM provides this data publicly, it is stored in complex directory structures, compressed in ZIP archives, and formatted in non-standard CSVs (using ISO-8859-1 encoding and semicolon separators). For a typical financial analyst or student, manually downloading, unzipping, and parsing these files for every query is inefficient. CVM Extractor solves this by providing a web interface that simplefies the entire ETL (Extract, Transform, Load).
 
